@@ -1,3 +1,5 @@
+# 前提環境：CentOS 7-minimal
+
 # 好きな情報入れてね
 IPADDR=10.0.0.238
 NODENAME=packstack.localdomain
