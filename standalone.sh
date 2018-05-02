@@ -1,7 +1,11 @@
 # 前提環境：CentOS 7-minimal
 
 # 好きな情報入れてね
-IPADDR=10.0.0.238
+IPADDR=192.168.75.189
+PREFIX=24
+GATEWAY=192.168.75.2
+DNS1=8.8.8.8
+ETHNAME=ens32
 NODENAME=packstack.localdomain
 CINDERDISK=/dev/sdb
 
@@ -19,6 +23,13 @@ echo ${NODENAME} ${IPADDR} >> /etc/hosts
 systemctl status NetworkManager
 systemctl stop NetworkManager
 systemctl disable NetworkManager
+
+## configure network
+sed -i "s/BOOTPROTO=dhcp/BOOTPROTO=none/" /etc/sysconfig/network-scripts/ifcfg-${ETHNAME}
+sed -i "$ a IPADDR=${IPADDR}" /etc/sysconfig/network-scripts/ifcfg-${ETHNAME}
+sed -i "$ a PREFIX=${PREFIX}" /etc/sysconfig/network-scripts/ifcfg-${ETHNAME}
+sed -i "$ a GATEWAY=${GATEWAY}" /etc/sysconfig/network-scripts/ifcfg-${ETHNAME}
+sed -i "$ a DNS1=${DNS1}" /etc/sysconfig/network-scripts/ifcfg-${ETHNAME}
 
 ## disable SELinux
 sed -i "s/\(^SELINUX=\).*/\1disabled/" /etc/selinux/config
